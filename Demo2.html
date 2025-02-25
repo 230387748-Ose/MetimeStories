@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0", shrink-to-fit=no>
+    <title>MeTime Stories</title>
+    <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png">
+    <style>
+       
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #FBF1E2;
+    text-align: center;
+}
+
+h2 {
+    color: #444;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+input, select, button {
+    display: block;
+    width: 87%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 0.5px solid #ccc;
+    border-radius: 19px;
+    font-size: 16px;
+}
+
+input:focus, select:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(243, 156, 18, 0.5);
+}
+
+button {
+    background-color: #f39c12;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #e67e22;
+}
+
+#story {
+    background: white;
+    padding: 30px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Adjust based on your layout */
+    margin: auto;
+    border-radius: 8px;
+}
+
+#story img {
+    width: 100%; /* Makes the image fit the container */
+    max-width: 550px; /* Optional: Limits max size */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Removes extra spacing */
+    margin: 10px auto; /* Centers the image */
+    border-radius: 8px; /* Optional: Rounds corners for a polished look */
+    object-fit: contain; /* Ensures images are displayed properly */
+}
+
+.custom-width {
+    width: 30%;
+    margin: 0px 0;
+}
+
+
+.error {
+    color: red;
+    font-size: 14px;
+    display: none;
+    text-align: left;
+}
+        
+    </style>
+</head>
+<body>
+    <h2>Enter Details to Generate Your Story</h2>
+
+    <form id="storyForm">
+        <input type="text" id="child_name" placeholder="Child's Name">
+        <span class="error" id="error_child_name">Enter child's name.</span>
+
+        <div style="display: flex; align-items: center; gap: 20px;">
+        <label for="gender"> Gender:</label>
+        <select id="gender" class="custom-width">
+            <option value="he">  Male </option>
+            <option value="she">  Female </option>
+        </select>
+        </div>
+
+        <input type="text" id="parent1" placeholder="Parent 1">
+        <span class="error" id="error_parent1">Enter parent's name.</span>
+
+        <input type="text" id="parent2" placeholder="Parent 2">
+        <span class="error" id="error_parent2">Enter parent's name.</span>
+
+        <input type="text" id="uncle_name" placeholder="Uncle's Name">
+        <span class="error" id="error_uncle_name">Enter uncle's name.</span>
+
+        <input type="text" id="pet_name" placeholder="Teddy's Name">
+        <span class="error" id="error_pet_name">Enter teddy's name.</span>
+
+        <!-- <input type="text" id="friend_home" placeholder="Home Friend">
+        <span class="error" id="error_friend_home">Enter friend's name.</span>
+
+        <input type="text" id="friend_school" placeholder="School Friend">
+        <span class="error" id="error_friend_school">Enter friend's name.</span> -->
+
+        <button type="submit">Generate Story</button>
+    </form>
+
+    <div id="story"></div>
+
+    <script>
+            document.getElementById("storyForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let isValid = true;
+            const nameRegex = /^[A-Za-z\s]+$/; 
+
+            function validateField(id) {
+                const input = document.getElementById(id);
+                const error = document.getElementById("error_" + id);
+                if (!nameRegex.test(input.value.trim())) {
+                    error.style.display = "block";
+                    isValid = false;
+                } else {
+                    error.style.display = "none";
+                }
+            }
+
+            const fields = ["child_name", "parent1", "parent2", "uncle_name", "pet_name"];
+            fields.forEach(validateField);
+
+            if (isValid) {
+                generateStory();
+            }
+        });
+
+        // Capitalise the character's names
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+
+        function generateStory() {
+            const userData = {
+                child_name: capitalizeFirstLetter(document.getElementById("child_name").value.trim()),
+                gender: document.getElementById("gender").value,
+                parent1: capitalizeFirstLetter(document.getElementById("parent1").value.trim()),
+                parent2: capitalizeFirstLetter(document.getElementById("parent2").value.trim()),
+                uncle_name: capitalizeFirstLetter(document.getElementById("uncle_name").value.trim()),
+                pet_name: capitalizeFirstLetter(document.getElementById("pet_name").value.trim()),
+            };
+
+            // Gender-based pronouns
+            const pronoun = userData.gender;
+            const possessive = pronoun === "he" ? "his" : "her";
+            const possessive2 = pronoun === "he" ? "him" : "her";
+            
+            const story = `
+
+                <h2>${userData.child_name} & the Time-Travelling Tractor By MeTime Stories</h2>
+
+            <h3>1</h3>
+                <img src="images/1.png" alt="Image Not Loading">
+                <p>${userData.child_name} went to the farm with ${userData.parent1}, ${userData.parent2}, 
+                ${userData.uncle_name}, and ${possessive} favourite teddy, ${userData.pet_name} the green dinosaur. 
+                ${capitalizeFirstLetter(pronoun)} saw a cow munching on grass, pigs rolling around in the mud, and lambs jumping playfully 
+                in the field. Hops and crops were growing tall, chickens ran about frantically in their pen, and 
+                sheep were having their thick wool sheared in the barn.</p>
+                
+
+            <h3>2</h3>
+                <img src="images/2.png" alt="Image Not Loading">
+                <p>${userData.child_name} then spotted a ginger cat. Her name was Tabby and she had a very 
+                important job to play at the farm: she was there to scare the mice away. Tabby had a shiny fur coat 
+                and glistening green eyes that gleamed brighter than emeralds.</p>
+                
+                <p>All of a sudden, the cat’s nose began to twitch. Tabby sniffed around the farmyard and her ears perked up. 
+                And suddenly she darted off. ${userData.child_name} chased the nimble cat as she raced across the farm, 
+                zipped through the chicken pen, and jumped over the sheepdog.</p>
+
+            <h3>3</h3>
+                    <img src="images/3.png" alt="Image Not Loading">
+                <p>${userData.child_name} was tired after chasing the cat all across the farm, so ${pronoun} sat down to take a break on a nearby tractor. 
+                As ${pronoun} rested, ${pronoun} looked around and saw Tabby perched beside ${possessive2}. But to ${possessive} surprise, she didn't jump away this time. 
+                She instead meowed at ${possessive2} in a mysterious and magical manner...</p>
+                
+                <p>"If you purrrr-ress the green button and pull that red lever, we can see even more cool creatures. 
+                Would you like to join me on an adventure?"</p>
+            
+                <p>“Yes!” shouted ${userData.child_name} excitedly as ${pronoun} followed the cat’s instructions. “I love adventures!”</p>
+
+             <h3>4</h3>
+                    <img src="images/4.png" alt="Image Not Loading">
+                <p>All of a sudden, the world around ${userData.child_name} began to blur. Colours shifted and swirled before ${possessive} eyes 
+                and, soon enough, the farm had disappeared out of view. Holding ${userData.pet_name} close, ${pronoun} was nervous but excited 
+                to embark on ${possessive} next adventure.</p>
+                
+                <p>${userData.child_name} felt a strange feeling in ${possessive} tummy. All the twisting and turning was making ${possessive2} dizzy, so ${pronoun} shut his eyes tight. 
+                Well, ${pronoun} was travelling through time, after all!</p>
+
+            <h3>5</h3>
+                    <img src="images/5.png" alt="Image Not Loading">
+                <p>As soon as ${userData.child_name} opened ${possessive} eyes, ${pronoun} quickly realised ${pronoun} wasn’t at the farm anymore. The tractor had transported ${possessive2} back in time to a place ${pronoun}’d only ever read about in books and watched in movies…</p>
+
+               <p> ${userData.child_name} couldn’t believe what ${pronoun} was seeing. Before ${possessive2} stood a volcano that towered majestically into the sky, sending out thick plumes of smoke. ${capitalizeFirstLetter(pronoun)} also saw forests full of gigantic, leafy trees, a crystal-clear lake that shimmered brightly in the sun, and winged creatures with long beaks that soared through the clouds.
+            </p>
+
+            <h3>6</h3>
+            <img src="images/6.png" alt="Image Not Loading">
+            <p>
+                ${userData.child_name} turned to Tabby, bursting with excitement, to ask: "Are we… in the land of dinosaurs?"
+                “Yes!” replied the cat proudly. “It’s the purrrr-fect place to embark on an adventure. Now, let’s go!”
+            </p>
+
+            <h3>7</h3>
+            <img src="images/7.png" alt="Image Not Loading">
+            <p>
+                ${userData.child_name} began to drive the tractor down the hill. As ${pronoun} bumped down the rocky path, ${possessive} eyes wide with wonder, ${pronoun} spotted some baby dinosaurs. They had wings, just like the bigger ones ${pronoun}’d seen soaring through the clouds. They were called _________.
+
+                Suddenly, ${pronoun} came across a boulder big enough to block ${possessive} path. How was ${pronoun} going to move it? With a mischievous grin, ${userData.child_name} had an idea. ${pronoun} activated the tractor’s digger, picking up the humongous boulder and moving it to the side as if it were just a small pebble.
+            </p>
+
+            <h3>8</h3>
+            <img src="images/8.png" alt="Image Not Loading">
+            <p>
+                As ${pronoun} continued to drive down into the dinosaur valley, the ground beneath the wheels began to tremble. ${userData.child_name} heard a rumble and a worried cry… ${pronoun} looked around and saw a Triceratops that had gotten stuck!
+                </p>
+                <p>${userData.child_name} knew what to do. ${capitalizeFirstLetter(pronoun)} activated the tractor’s digger once again, using it to dig out the trapped Triceratops and free her from the mud.</p>
+                <p>
+                “There you go. You’re free now, Mrs. Triceratops,” said ${userData.child_name}, proud of ${possessive2}self for helping.
+            </p>
+
+            <h3>9</h3>
+            <img src="images/9.png" alt="Image Not Loading">
+            <p>
+                “Thank you!” replied the grateful dinosaur. “By the way, you can call me Trixie!”
+
+                Venturing into the forest, ${userData.child_name} and Trixie passed trees as tall as buildings. Their leaves were as big as the tractor's wheels.
+
+                Soon enough, ${userData.child_name} encountered another dinosaur in need of ${possessive} help…
+                “I can’t reach the fruit hanging high up in this tree,” cried the sad T.rex. “My arms are too tiny!”
+            </p>
+
+            <h3>10</h3>
+            <img src="images/10.png" alt="Image Not Loading">
+            <p>
+                ${userData.child_name} knew exactly what ${pronoun} needed to do. ${capitalizeFirstLetter(pronoun)} used the tractor’s extendable grabber to pick a bunch of fruit.
+                </p>
+                <p>
+                “Thank you!” said the T.rex through a big, toothy grin. “By the way, you can call me Rexy.”
+            </p>
+
+            <h3>11</h3>
+            <img src="images/11.png" alt="Image Not Loading">
+            <p>
+                “What do you think Rexy wanted with all that fruit?” ${userData.child_name} asked Tabby as they continued their journey through the thick forest.
+                </p>
+                <p>
+                “The Tyrannosaurus rex may be one of the largest and most fearsome carnivores of all time,” replied Tabby. “But Rexy knows he needs lots of vitamins and minerals to stay strong and healthy. And fruit is packed full of them, making it the purrr-fect after-dinner treat!”
+            </p>
+
+            <h3>12</h3>
+            <img src="images/12.png" alt="Image Not Loading">
+            <p>
+                Happy to have helped another dinosaur, ${userData.child_name} continued to travel through the prehistoric land.
+                </p>
+                <p>
+                As ${pronoun} drove down a long and winding path, dodging lots of huge rocks along the way, the sound of trickling water grew louder and louder.
+                </p>
+                <p>
+                ${capitalizeFirstLetter(pronoun)} soon found what was making all the noise: a magical waterfall glistening in the sun! The waterfall flowed into a huge, majestic lake. In the middle of the lake, there stood a Brachiosaurus who seemed to be in trouble.
+            </p>
+
+            <h3>13</h3>
+            <img src="images/13.png" alt="Image Not Loading">
+            <p>
+                “What’s wrong, Mr. Brachiosaurus?” called ${userData.child_name}, wanting to help.
+                </p>
+                <p>
+                “I’m in the middle of having a wash, but I seem to have misplaced my soap!” shouted the long-necked dinosaur. “Can you see it anywhere?”
+
+                ${userData.child_name} used the tractor’s grabber to pass the soap.
+                </p>
+                <p>
+                “Thank you!” said the Brachiosaurus. “You’re very helpful – your parents must be proud. My name is Sir Stumpy McNeckington. Some call me Lord Longneck, but you can call me Buddy!”
+            </p>
+
+            <h3>14</h3>
+            <img src="images/14.png" alt="Image Not Loading">
+            <p> 
+                ${userData.child_name} drove deeper into the leafy forest until ${pronoun} found a clearing. ${capitalizeFirstLetter(pronoun)} then turned to Tabby and said: “I’ve had the best day ever, helping all the dinosaurs. But I think it’s time we stopped for a deserved break.”
+
+                It was a good job ${userData.parent1} had packed all ${possessive} favourite foods, as ${userData.child_name} was now really hungry.
+
+                But as ${pronoun} and Tabby sat down for their picnic of bread, cheese, chocolate, and fruit, ${userData.child_name} heard a rustling in the trees…
+            </p>
+
+            <h3>15</h3>
+            <img src="images/15.png" alt="Image Not Loading">
+            <p>
+                ${userData.child_name} was nervous… until ${pronoun} saw who had been making the rustling noises. It was all ${possessive} new dinosaur friends, here to thank ${possessive2} for helping them with their problems!
+
+                They laughed, ate, played, and had the best time ever. ${userData.child_name} had a piggyback off Trixie, ate loads of fruit with Rexy, and listened to Buddy tell lots of cool stories.
+            </p>
+
+            <h3>16</h3>
+            <p>
+                But ${userData.child_name} soon started to feel very sleepy. ${capitalizeFirstLetter(pronoun)}’d had an amazing day but was now ready to go home.
+
+                So ${pronoun} tidied up the leftovers and litter from ${possessive} picnic, said goodbye to all of ${possessive} new dinosaur friends, and jumped back into the tractor.
+                </p>
+                <p>
+                “To get home, you need to close your eyes and wish to be back on the farm,” said Tabby wisely. “And that is where I must leave you.”
+
+                Following the ginger cat’s advice, ${userData.child_name} shut ${possessive} eyes tight and made a silent wish.
+            </p>
+
+            <h3>17</h3>
+            <p>
+                Just like that, ${userData.child_name} was back on the farm, waving goodbye to ${possessive} feline friend.
+                </p>
+                <p>
+                “See you on our next adventure!” shouted Tabby as she darted through a hole in the barn.
+                </p>
+                <p>
+                “Sounds like a purrrr-fect plan to me!” replied ${userData.child_name}.
+                </p>
+                <p>
+                “Have you had a good day, ${userData.child_name}?” asked ${userData.parent1} and ${userData.parent2} as the family made their way home.
+                </p>
+                <p>
+                “Yep,” said ${userData.child_name} sleepily. “I’ve seen lots of cool creatures, made loads of new friends, and even ridden a time-travelling tractor!”
+            </p>
+            `;
+            
+            document.getElementById("story").innerHTML = story;
+        }
+    </script>
+</body>
+</html>
